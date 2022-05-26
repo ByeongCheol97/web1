@@ -1,0 +1,59 @@
+let count=0
+let id,pwd;
+let data=[];
+let logData=[];
+let t=false;
+function Info(id,pwd){
+    this.id=id;
+    this.pwd=pwd||null;
+}
+let idReg=/^[a-zA-z]{5,10}$/
+let pwdReg1=/^(?=.*[a-zA-z])(?=.*\d)(?=.*[!@#$#%^&*])[a-zA-Z\d!@#$^%&*]{8,12}$/g
+let pwdReg2
+while(count<2){
+    id=prompt("영문자로 된 ID 를 입력하시오(5~10자리");
+    if (id==null) process.exit()
+    pwd=null;
+    if(idReg.test(id)){
+        t=false
+        for (let i in data){
+            if(data[i].id== id)
+            {
+                t=true;
+                break;
+            }
+        }
+        if (t){
+            alert("id failed")
+            logData.push(new Info(id,pwd))
+            continue;
+	}
+        alert (`${id}는 유효한 ID`)
+        pwdReg2=new RegExp(id,"gi")
+        while(1){
+            pwd=prompt("pwd 입력, 영문자, 숫자, 특수문자 1개 이상 입력")
+            if(pwd==null) process.exit()
+            if(!(pwdReg2.test(pwd)) && pwdReg1.test(pwd))
+            {
+                alert("id,pwd nice");
+                data.push(new Info(id,pwd))
+                count=count+1;
+                break
+            }
+            else{
+                alert("pwd failed")
+                logData.push(new Info(id,pwd))
+                continue
+            }
+        }
+        
+    }
+    else{
+        alert("id failed")
+        logData.push(new Info(id,pwd))
+        continue
+    }
+
+}
+console.log(data)
+console.log(logData)
